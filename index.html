@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HÔM NAY ĂN GÌ</title>
+    
+    <link rel="icon" href="assets/img/icon.jpg" type="image/jpeg">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+
+    <div class="bg-container">
+        <div class="bg-layer" id="bg-1"></div>
+        <div class="bg-layer" id="bg-2"></div>
+    </div>
+
+    <header id="mainHeader">
+        <div class="logo" onclick="app.scrollToSection('home')">Hôm nay<span>ăn gì</span></div>
+        <nav class="main-nav">
+            <span onclick="app.scrollToSection('home')">Trang chủ</span>
+            <span onclick="app.scrollToSection('search-section')">Tìm kiếm</span>
+            <span onclick="app.scrollToSection('fav-section')">Yêu thích</span>
+            <span onclick="app.scrollToSection('hist-section')">Lịch sử</span>
+            <span onclick="app.scrollToSection('about-section')">Giới thiệu</span>
+        </nav>
+        <div class="header-actions">
+            <div class="btn-random" onclick="app.startRandom()">
+                <i class="fas fa-dice"></i> <span>Ngẫu nhiên</span>
+            </div>
+            <div class="auth-box-header" id="authHeader" onclick="app.scrollToSection('auth-section')">
+                <i class="fas fa-user-circle"></i> <span>Đăng nhập</span>
+            </div>
+            <div class="user-info hidden" id="userHeader">
+                <span id="userNameDisplay">User</span>
+                <i class="fas fa-sign-out-alt" onclick="app.logout()" title="Đăng xuất"></i>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="home-section">
+        <div class="menu-wrapper">
+            <div class="menu-viewport" id="menuViewport">
+                <div class="menu-track" id="menuTrack"></div>
+            </div>
+            <div class="ruler-container">
+                <div class="ruler-pointer"></div>
+                <div class="ruler-track" id="rulerTrack"></div>
+            </div>
+        </div>
+        <div class="carousel-stage" id="foodStage"></div>
+        <div class="info-layer" id="infoLayer"></div>
+        <div class="nav-btn prev" id="btnPrev"><i class="fas fa-chevron-left"></i></div>
+        <div class="nav-btn next" id="btnNext"><i class="fas fa-chevron-right"></i></div>
+    </section>
+
+    <section id="search-section" class="page-section content-section">
+        <div class="container">
+            <h2 class="section-title">Tìm kiếm món ăn</h2>
+            <div class="search-bar-large">
+                <input type="text" id="searchInput" placeholder="Nhập tên món ăn (Phở, Bánh mì...)" onkeyup="app.handleSearch(this.value)">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="grid-results" id="searchResults">
+                <p class="empty-msg">Nhập từ khóa để tìm kiếm...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="fav-section" class="page-section content-section">
+        <div class="container">
+            <h2 class="section-title">Món ăn yêu thích</h2>
+            <div class="grid-results" id="favResults"></div>
+        </div>
+    </section>
+
+    <section id="hist-section" class="page-section content-section">
+        <div class="container">
+            <h2 class="section-title">Lịch sử xem</h2>
+            <div class="grid-results" id="histResults"></div>
+        </div>
+    </section>
+
+    <section id="about-section" class="page-section info-split-section">
+        <div class="container split-container">
+            <div class="split-box">
+                <h2 class="section-title">Giới thiệu</h2>
+                <p>Website "Hôm nay ăn gì" giúp bạn lựa chọn món ăn một cách nhanh chóng và thú vị thông qua tính năng gợi ý ngẫu nhiên, lọc theo loại món, độ phức tạp và cách chế biến chi tiết.</p>
+            </div>
+            <div class="split-box">
+                <h2 class="section-title">Liên hệ</h2>
+                <ul class="contact-list">
+                    <li><i class="fas fa-envelope"></i> tronglele.mail@gmail.com</li>
+                    <li><i class="fas fa-phone"></i> +84 966 371 697</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Thành phố Hồ Chí Minh, Việt Nam</li>
+                    <li>
+                        <i class="fab fa-facebook"></i> 
+                        <a href="https://m.facebook.com/profile.php?id=1307160018" target="_blank">Nguyễn Thành Trọng</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="auth-section" class="page-section auth-section">
+        <div class="auth-wrapper">
+            <div id="loginForm" class="auth-card">
+                <h2>Đăng nhập</h2>
+                <p>Truy cập tài khoản của bạn</p>
+                <div class="inp-group">
+                    <label>Email</label>
+                    <input type="email" id="logEmail" placeholder="email@example.com">
+                </div>
+                <div class="inp-group">
+                    <label>Mật khẩu</label>
+                    <div class="pass-wrapper">
+                        <input type="password" id="logPass" placeholder="********">
+                        <i class="fas fa-eye toggle-pass" onclick="app.togglePass('logPass', this)"></i>
+                    </div>
+                </div>
+                <button class="primary-btn" onclick="app.login()">Đăng nhập</button>
+                <div class="switch-link">Chưa có tài khoản? <span onclick="app.switchAuth('register')">Đăng ký</span></div>
+            </div>
+
+            <div id="registerForm" class="auth-card hidden">
+                <h2>Đăng ký</h2>
+                <p>Tạo tài khoản mới</p>
+                <div class="inp-group">
+                    <label>Tên hiển thị</label>
+                    <input type="text" id="regName" placeholder="Tên của bạn">
+                </div>
+                <div class="inp-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="email@example.com">
+                </div>
+                <div class="inp-group">
+                    <label>Mật khẩu (Tối thiểu 8 ký tự)</label>
+                    <div class="pass-wrapper">
+                        <input type="password" id="regPass" placeholder="********">
+                        <i class="fas fa-eye toggle-pass" onclick="app.togglePass('regPass', this)"></i>
+                    </div>
+                </div>
+                <button class="primary-btn" onclick="app.register()">Đăng ký</button>
+                <div class="switch-link">Đã có tài khoản? <span onclick="app.switchAuth('login')">Đăng nhập</span></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-backdrop" id="randomPopup">
+        <div class="popup-box random-box">
+            <div class="close-popup" onclick="app.closeRandom()"><i class="fas fa-times"></i></div>
+            <h3>Hôm nay ăn gì?</h3>
+            <div class="random-result-img" id="randomImg"></div>
+            <h2 id="randomName">Tên món</h2>
+            <button onclick="app.viewRandomDetail()">Xem chi tiết</button>
+        </div>
+    </div>
+
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="close-btn" id="closeDetail"><i class="fas fa-times"></i></div>
+        <div class="detail-content">
+            <div class="detail-img" id="detailImg"></div>
+            <div class="detail-info">
+                <div class="detail-header">
+                    <h2 id="detailTitle">Title</h2>
+                    <div class="detail-stats">
+                        <span id="detailTime"></span>
+                        <span id="detailKcal"></span>
+                        <span id="detailDiff"></span>
+                        <span id="detailViews"><i class="fas fa-eye"></i> 0</span>
+                    </div>
+                    <p class="detail-desc" id="detailDesc">Mô tả món ăn...</p>
+                </div>
+                <div class="detail-scroll-area">
+                    <div class="recipe-sec">
+                        <h3><i class="fas fa-carrot"></i> Nguyên liệu</h3>
+                        <ul id="detailIng" class="ing-list"></ul>
+                    </div>
+                    <div class="recipe-sec">
+                        <h3><i class="fas fa-fire-burner"></i> Cách làm</h3>
+                        <ol id="detailStep" class="step-list"></ol>
+                    </div>
+                </div>
+                <div class="detail-actions">
+                    <button class="act-btn share" onclick="app.share()"><i class="fab fa-facebook-f"></i> Chia sẻ Facebook</button>
+                    <button class="act-btn fav" id="btnFav"><i class="far fa-heart"></i> Yêu thích</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
